@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { GROUP_LABELS, normalizeDrugGroup } from '../../lib/medicationConfig'
 
 export default function DoseCalcsPanel({ drugs, results, weightKg }) {
   const [open, setOpen] = useState(false)
@@ -18,9 +19,15 @@ export default function DoseCalcsPanel({ drugs, results, weightKg }) {
           {drugs.map(drug => {
             const r = results[drug.id]
             if (!r) return null
+            const groupLabel = GROUP_LABELS[normalizeDrugGroup(drug)]
             return (
               <div key={drug.id}>
-                <p className="text-sm font-semibold text-gray-700 mb-1">{drug.name}</p>
+                <p className="text-sm font-semibold text-gray-700 mb-1">
+                  {drug.name}
+                  {groupLabel && (
+                    <span className="ml-2 text-xs font-normal text-gray-400">{groupLabel}</span>
+                  )}
+                </p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs text-gray-600">
                   <div className="bg-gray-50 rounded px-2 py-1">
                     <span className="font-medium">Low dose:</span> {r.lowMg?.toFixed(1)} mg

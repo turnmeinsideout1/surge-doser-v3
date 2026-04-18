@@ -1,40 +1,66 @@
 import { useLogs } from '../hooks/useLogs'
 
+function sessionType(log) {
+  const d = log.discharge_generated  ?? true   // legacy rows assumed discharge
+  const a = log.anesthesia_generated ?? false
+  if (d && a)  return 'Both'
+  if (a)       return 'Anesthesia'
+  return 'Discharge'
+}
+
 function exportCSV(logs) {
-  const rows = [['Date', 'User', 'Patient', 'Weight (lbs)', 'Weight (kg)', 'Procedure', 'Surgery Date', 'Drug', 'Form', 'Low Dose mg/kg', 'High Dose mg/kg', 'Frequency', 'Suggestion']]
+  const rows = [[
+    'Date', 'User', 'Session type',
+    'Patient', 'Weight (lbs)', 'Weight (kg)', 'Procedure', 'Surgery Date',
+    'Drug', 'Section', 'Group', 'Form',
+    'Low Dose mg/kg', 'High Dose mg/kg',
+    'Route', 'Timing', 'Frequency', 'Suggestion',
+  ]]
 
   for (const log of logs) {
     const date = new Date(log.created_at).toLocaleString()
     const user = log.users?.full_name || '—'
+    const type = sessionType(log)
     for (const drug of (log.drugs_json || [])) {
       const r = drug.result || {}
-      const suggestion = r.suggestion || ''
       rows.push([
-        date, user,
+        date, user, type,
         log.patient_name, log.patient_weight_lbs, log.patient_weight_kg,
-        log.procedure, log.surgery_date,
-        drug.name, drug.form,
+        log.procedure, log.surgery_date ?? '',
+        drug.name,
+        drug.section   ?? 'discharge',
+        drug.group_key ?? '',
+        drug.form,
         drug.low_dose_mg_per_kg, drug.high_dose_mg_per_kg,
-        drug.frequency, suggestion,
+        drug.route          ?? '',
+        drug.default_timing ?? '',
+        drug.frequency,
+        r.suggestion || '',
       ])
     }
   }
 
   const csv = rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n')
   const blob = new Blob([csv], { type: 'text/csv' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
+  const url  = URL.createObjectURL(blob)
+  const a    = document.createElement('a')
+  a.href     = url
   a.download = `surge-logs-${new Date().toISOString().slice(0, 10)}.csv`
   a.click()
   URL.revokeObjectURL(url)
+}
+
+const TYPE_STYLES = {
+  Discharge:  'bg-blue-50 text-blue-700',
+  Anesthesia: 'bg-purple-50 text-purple-700',
+  Both:       'bg-teal-50 text-teal-700',
 }
 
 export default function LogsPage() {
   const { data: logs, isLoading, error } = useLogs()
 
   if (isLoading) return <div className="p-8 text-center text-gray-400">Loading logs…</div>
-  if (error) return <div className="p-8 text-center text-red-500">{error.message}</div>
+  if (error)     return <div className="p-8 text-center text-red-500">{error.message}</div>
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
@@ -63,6 +89,7 @@ export default function LogsPage() {
               <tr>
                 <th className="text-left px-4 py-2 font-medium text-gray-600">Date</th>
                 <th className="text-left px-4 py-2 font-medium text-gray-600">User</th>
+                <th className="text-left px-4 py-2 font-medium text-gray-600">Type</th>
                 <th className="text-left px-4 py-2 font-medium text-gray-600">Patient</th>
                 <th className="text-left px-4 py-2 font-medium text-gray-600">Weight</th>
                 <th className="text-left px-4 py-2 font-medium text-gray-600">Procedure</th>
@@ -71,25 +98,35 @@ export default function LogsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {logs.map(log => (
-                <tr key={log.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-2 text-gray-600 whitespace-nowrap">
-                    {new Date(log.created_at).toLocaleString()}
-                  </td>
-                  <td className="px-4 py-2 text-gray-600">
-                    {log.users?.full_name || '—'}
-                  </td>
-                  <td className="px-4 py-2 font-medium text-gray-800">{log.patient_name}</td>
-                  <td className="px-4 py-2 text-gray-600 whitespace-nowrap">
-                    {log.patient_weight_lbs} lbs / {log.patient_weight_kg} kg
-                  </td>
-                  <td className="px-4 py-2 text-gray-600">{log.procedure}</td>
-                  <td className="px-4 py-2 text-gray-600 whitespace-nowrap">{log.surgery_date}</td>
-                  <td className="px-4 py-2 text-gray-600">
-                    {(log.drugs_json || []).map(d => d.name).join(', ')}
-                  </td>
-                </tr>
-              ))}
+              {logs.map(log => {
+                const type = sessionType(log)
+                return (
+                  <tr key={log.id} className="hover:bg-gray-50">
+                    <td className="px-4 py-2 text-gray-600 whitespace-nowrap">
+                      {new Date(log.created_at).toLocaleString()}
+                    </td>
+                    <td className="px-4 py-2 text-gray-600">
+                      {log.users?.full_name || '—'}
+                    </td>
+                    <td className="px-4 py-2">
+                      <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${TYPE_STYLES[type]}`}>
+                        {type}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2 font-medium text-gray-800">{log.patient_name}</td>
+                    <td className="px-4 py-2 text-gray-600 whitespace-nowrap">
+                      {log.patient_weight_lbs} lbs / {log.patient_weight_kg} kg
+                    </td>
+                    <td className="px-4 py-2 text-gray-600">{log.procedure}</td>
+                    <td className="px-4 py-2 text-gray-600 whitespace-nowrap">
+                      {log.surgery_date || '—'}
+                    </td>
+                    <td className="px-4 py-2 text-gray-600">
+                      {(log.drugs_json || []).map(d => d.name).join(', ')}
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>

@@ -57,7 +57,9 @@ export default function RegisterPage() {
     }
 
     setLoading(false)
-    navigate('/')
+    // New practice admins go straight to the drug library so they can
+    // load the standard drug set before doing anything else.
+    navigate(isNewPractice ? '/drugs' : '/')
   }
 
   return (

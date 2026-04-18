@@ -14,7 +14,8 @@ export function useDrugs({ activeOnly = false } = {}) {
         .eq('practice_id', practiceId)
       if (activeOnly) query = query.eq('active', true)
       const { data, error } = await query
-        .order('category')
+        .order('section')
+        .order('group_key')
         .order('sort_order')
         .order('name')
       if (error) throw error

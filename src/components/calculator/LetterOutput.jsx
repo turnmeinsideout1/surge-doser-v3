@@ -1,11 +1,21 @@
-export default function LetterOutput({ html, text, onCopy }) {
+/**
+ * LetterOutput — renders a generated instruction block with copy buttons.
+ *
+ * Props:
+ *   html           string   — rendered HTML output
+ *   text           string   — plain-text output
+ *   onCopy         fn(type) — called with 'plain' or 'formatted' on copy
+ *   title          string?  — optional section heading shown above the output box
+ *   showDisclaimer boolean? — defaults true; set false to suppress the warning banner
+ */
+export default function LetterOutput({ html, text, onCopy, title, showDisclaimer = true }) {
   function copyPlain() {
     navigator.clipboard.writeText(text)
     onCopy('plain')
   }
 
   function copyFormatted() {
-    const blob = new Blob([html], { type: 'text/html' })
+    const blob  = new Blob([html], { type: 'text/html' })
     const plain = new Blob([text], { type: 'text/plain' })
     navigator.clipboard.write([new ClipboardItem({ 'text/html': blob, 'text/plain': plain })])
     onCopy('formatted')
@@ -13,6 +23,10 @@ export default function LetterOutput({ html, text, onCopy }) {
 
   return (
     <>
+      {title && (
+        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">{title}</h2>
+      )}
+
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-4">
         {html ? (
           <div
@@ -26,9 +40,11 @@ export default function LetterOutput({ html, text, onCopy }) {
         )}
       </div>
 
-      <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 mb-3">
-        ⚠️ These are draft calculations only. All doses should be verified by a qualified staff before administration.
-      </p>
+      {showDisclaimer && (
+        <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 mb-3">
+          ⚠️ These are draft calculations only. All doses should be verified by a qualified staff before administration.
+        </p>
+      )}
 
       <div className="grid grid-cols-2 gap-3 mb-4">
         <button

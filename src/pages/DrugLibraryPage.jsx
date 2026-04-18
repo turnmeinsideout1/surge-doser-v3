@@ -35,18 +35,38 @@ function NonAdminBanner({ practiceId }) {
   )
 }
 
+// ─── Default drug set ────────────────────────────────────────────────────────
+// Each entry must include section + group_key.
+// Anesthesia seed values are clinical placeholders — verify before clinical use.
+
 const DEFAULT_DRUGS = [
-  { name: 'Carprofen',          category: 'Anti-Inflammatories', form: 'tablet',  tablet_sizes: [25,75,100],        concentration_mg_per_ml: null, low_dose_mg_per_kg: 1.8,   high_dose_mg_per_kg: 2.5,  frequency: 'BID',     duration_days: 14, week2: true,  sort_order: 1, patient_instructions: 'orally with food twice (2x) daily. This is a non-steroidal anti-inflammatory drug (NSAID) which may cause gastrointestinal upset such as vomiting, diarrhea, black stool and/or inappetence. If any of these clinical signs are noted please contact a veterinarian.' },
-  { name: 'Metacam',            category: 'Anti-Inflammatories', form: 'liquid',  tablet_sizes: null,               concentration_mg_per_ml: 1.5,  low_dose_mg_per_kg: 0.1,   high_dose_mg_per_kg: 0.1,  frequency: 'SID',     duration_days: 14, week2: true,  sort_order: 2, patient_instructions: 'orally with food once (1x) daily. This is a non-steroidal anti-inflammatory drug (NSAID) which may cause gastrointestinal upset such as vomiting, diarrhea, black stool and/or inappetence. If any of these clinical signs are noted please contact a veterinarian.' },
-  { name: 'Gallaprant',         category: 'Anti-Inflammatories', form: 'tablet',  tablet_sizes: [20,60,100],        concentration_mg_per_ml: null, low_dose_mg_per_kg: 2.0,   high_dose_mg_per_kg: 2.2,  frequency: 'SID',     duration_days: 14, week2: true,  sort_order: 3, patient_instructions: 'orally with food once (1x) daily. This is a non-steroidal anti-inflammatory drug (NSAID).' },
-  { name: 'Cephalexin',         category: 'Antibiotics',         form: 'tablet',  tablet_sizes: [250,500],          concentration_mg_per_ml: null, low_dose_mg_per_kg: 22,    high_dose_mg_per_kg: 30,   frequency: 'BID',     duration_days: 7,  week2: false, sort_order: 1, patient_instructions: 'orally with food twice (2x) daily. This is a broad spectrum antibiotic.' },
-  { name: 'Clavamox',           category: 'Antibiotics',         form: 'tablet',  tablet_sizes: [62.5,125,250,375], concentration_mg_per_ml: null, low_dose_mg_per_kg: 13.75, high_dose_mg_per_kg: 15,   frequency: 'BID',     duration_days: 7,  week2: false, sort_order: 2, patient_instructions: 'orally with food twice (2x) daily. This is a broad spectrum antibiotic.' },
-  { name: 'Amoxicillin',        category: 'Antibiotics',         form: 'liquid',  tablet_sizes: null,               concentration_mg_per_ml: 50,   low_dose_mg_per_kg: 22,    high_dose_mg_per_kg: 22,   frequency: 'BID',     duration_days: 7,  week2: false, sort_order: 3, patient_instructions: 'orally with food twice (2x) daily. This is a broad spectrum antibiotic.' },
-  { name: 'Trazodone',          category: 'Tranquilizers',       form: 'tablet',  tablet_sizes: [50,100],           concentration_mg_per_ml: null, low_dose_mg_per_kg: 3,     high_dose_mg_per_kg: 7,    frequency: 'TID',     duration_days: 14, week2: true,  sort_order: 1, patient_instructions: 'orally with food three times (3x) daily. This is a mild sedative, the expected side effect is sedation.' },
-  { name: 'Acepromazine',       category: 'Tranquilizers',       form: 'tablet',  tablet_sizes: [10,25],            concentration_mg_per_ml: null, low_dose_mg_per_kg: 0.5,   high_dose_mg_per_kg: 2.0,  frequency: 'TID-QID', duration_days: 14, week2: true,  sort_order: 2, patient_instructions: 'orally with food three to four times (3–4x) daily. This is a mild sedative, the expected side effect is sedation.' },
-  { name: 'Gabapentin Capsules',category: 'Miscellaneous',       form: 'tablet',  tablet_sizes: [100,300],          concentration_mg_per_ml: null, low_dose_mg_per_kg: 10,    high_dose_mg_per_kg: 20,   frequency: 'TID',     duration_days: 14, week2: true,  sort_order: 1, patient_instructions: 'orally with food three times (3x) daily. This is a pain medication and may cause sedation.' },
-  { name: 'Gabapentin Liquid',  category: 'Miscellaneous',       form: 'liquid',  tablet_sizes: null,               concentration_mg_per_ml: 50,   low_dose_mg_per_kg: 15,    high_dose_mg_per_kg: 15,   frequency: 'TID',     duration_days: 14, week2: true,  sort_order: 2, patient_instructions: 'orally with food three times (3x) daily. This is a pain medication and may cause sedation.' },
+  // Discharge — pain medications
+  { name: 'Carprofen',           section: 'discharge', group_key: 'pain_medications', category: 'Anti-Inflammatories', form: 'tablet',  tablet_sizes: [25,75,100],        concentration_mg_per_ml: null, low_dose_mg_per_kg: 1.8,   high_dose_mg_per_kg: 2.5,  frequency: 'BID',     duration_days: 14, week2: true,  sort_order: 1, patient_instructions: 'orally with food twice (2x) daily. This is a non-steroidal anti-inflammatory drug (NSAID) which may cause gastrointestinal upset such as vomiting, diarrhea, black stool and/or inappetence. If any of these clinical signs are noted please contact a veterinarian.' },
+  { name: 'Metacam',             section: 'discharge', group_key: 'pain_medications', category: 'Anti-Inflammatories', form: 'liquid',  tablet_sizes: null,               concentration_mg_per_ml: 1.5,  low_dose_mg_per_kg: 0.1,   high_dose_mg_per_kg: 0.1,  frequency: 'SID',     duration_days: 14, week2: true,  sort_order: 2, patient_instructions: 'orally with food once (1x) daily. This is a non-steroidal anti-inflammatory drug (NSAID) which may cause gastrointestinal upset such as vomiting, diarrhea, black stool and/or inappetence. If any of these clinical signs are noted please contact a veterinarian.' },
+  { name: 'Gallaprant',          section: 'discharge', group_key: 'pain_medications', category: 'Anti-Inflammatories', form: 'tablet',  tablet_sizes: [20,60,100],        concentration_mg_per_ml: null, low_dose_mg_per_kg: 2.0,   high_dose_mg_per_kg: 2.2,  frequency: 'SID',     duration_days: 14, week2: true,  sort_order: 3, patient_instructions: 'orally with food once (1x) daily. This is a non-steroidal anti-inflammatory drug (NSAID).' },
+  { name: 'Gabapentin Capsules', section: 'discharge', group_key: 'pain_medications', category: 'Miscellaneous',      form: 'tablet',  tablet_sizes: [100,300],          concentration_mg_per_ml: null, low_dose_mg_per_kg: 10,    high_dose_mg_per_kg: 20,   frequency: 'TID',     duration_days: 14, week2: true,  sort_order: 4, patient_instructions: 'orally with food three times (3x) daily. This is a pain medication and may cause sedation.' },
+  { name: 'Gabapentin Liquid',   section: 'discharge', group_key: 'pain_medications', category: 'Miscellaneous',      form: 'liquid',  tablet_sizes: null,               concentration_mg_per_ml: 50,   low_dose_mg_per_kg: 15,    high_dose_mg_per_kg: 15,   frequency: 'TID',     duration_days: 14, week2: true,  sort_order: 5, patient_instructions: 'orally with food three times (3x) daily. This is a pain medication and may cause sedation.' },
+  // Discharge — antibiotics
+  { name: 'Cephalexin',          section: 'discharge', group_key: 'antibiotics',      category: 'Antibiotics',        form: 'tablet',  tablet_sizes: [250,500],          concentration_mg_per_ml: null, low_dose_mg_per_kg: 22,    high_dose_mg_per_kg: 30,   frequency: 'BID',     duration_days: 7,  week2: false, sort_order: 1, patient_instructions: 'orally with food twice (2x) daily. This is a broad spectrum antibiotic.' },
+  { name: 'Clavamox',            section: 'discharge', group_key: 'antibiotics',      category: 'Antibiotics',        form: 'tablet',  tablet_sizes: [62.5,125,250,375], concentration_mg_per_ml: null, low_dose_mg_per_kg: 13.75, high_dose_mg_per_kg: 15,   frequency: 'BID',     duration_days: 7,  week2: false, sort_order: 2, patient_instructions: 'orally with food twice (2x) daily. This is a broad spectrum antibiotic.' },
+  { name: 'Amoxicillin',         section: 'discharge', group_key: 'antibiotics',      category: 'Antibiotics',        form: 'liquid',  tablet_sizes: null,               concentration_mg_per_ml: 50,   low_dose_mg_per_kg: 22,    high_dose_mg_per_kg: 22,   frequency: 'BID',     duration_days: 7,  week2: false, sort_order: 3, patient_instructions: 'orally with food twice (2x) daily. This is a broad spectrum antibiotic.' },
+  // Discharge — tranquilizers
+  { name: 'Trazodone',           section: 'discharge', group_key: 'tranquilizers',    category: 'Tranquilizers',      form: 'tablet',  tablet_sizes: [50,100],           concentration_mg_per_ml: null, low_dose_mg_per_kg: 3,     high_dose_mg_per_kg: 7,    frequency: 'TID',     duration_days: 14, week2: true,  sort_order: 1, patient_instructions: 'orally with food three times (3x) daily. This is a mild sedative, the expected side effect is sedation.' },
+  { name: 'Acepromazine',        section: 'discharge', group_key: 'tranquilizers',    category: 'Tranquilizers',      form: 'tablet',  tablet_sizes: [10,25],            concentration_mg_per_ml: null, low_dose_mg_per_kg: 0.5,   high_dose_mg_per_kg: 2.0,  frequency: 'TID-QID', duration_days: 14, week2: true,  sort_order: 2, patient_instructions: 'orally with food three to four times (3–4x) daily. This is a mild sedative, the expected side effect is sedation.' },
+
+  // ── Anesthesia — pre-op ───────────────────────────────────────────────────
+  { name: 'Hydromorphone', section: 'anesthesia', group_key: 'pre_op',  category: null, form: 'liquid', tablet_sizes: null, concentration_mg_per_ml: 2,   low_dose_mg_per_kg: 0.05, high_dose_mg_per_kg: 0.2,  frequency: 'SID', duration_days: 1, week2: false, sort_order: 1, route: 'IM', default_timing: 'pre-op',   patient_instructions: '' },
+  { name: 'Midazolam',     section: 'anesthesia', group_key: 'pre_op',  category: null, form: 'liquid', tablet_sizes: null, concentration_mg_per_ml: 5,   low_dose_mg_per_kg: 0.1,  high_dose_mg_per_kg: 0.3,  frequency: 'SID', duration_days: 1, week2: false, sort_order: 2, route: 'IM', default_timing: 'pre-op',   patient_instructions: '' },
+  { name: 'Methadone',     section: 'anesthesia', group_key: 'pre_op',  category: null, form: 'liquid', tablet_sizes: null, concentration_mg_per_ml: 10,  low_dose_mg_per_kg: 0.1,  high_dose_mg_per_kg: 0.5,  frequency: 'SID', duration_days: 1, week2: false, sort_order: 3, route: 'IM', default_timing: 'pre-op',   patient_instructions: '' },
+  // Anesthesia — induction (peri_op)
+  { name: 'Propofol',      section: 'anesthesia', group_key: 'peri_op', category: null, form: 'liquid', tablet_sizes: null, concentration_mg_per_ml: 10,  low_dose_mg_per_kg: 2,    high_dose_mg_per_kg: 6,    frequency: 'SID', duration_days: 1, week2: false, sort_order: 1, route: 'IV', default_timing: 'to effect', patient_instructions: '' },
+  { name: 'Ketamine',      section: 'anesthesia', group_key: 'peri_op', category: null, form: 'liquid', tablet_sizes: null, concentration_mg_per_ml: 10,  low_dose_mg_per_kg: 1,    high_dose_mg_per_kg: 5,    frequency: 'SID', duration_days: 1, week2: false, sort_order: 2, route: 'IV', default_timing: 'to effect', patient_instructions: '' },
+  // Anesthesia — post-op
+  { name: 'Hydromorphone', section: 'anesthesia', group_key: 'post_op', category: null, form: 'liquid', tablet_sizes: null, concentration_mg_per_ml: 2,   low_dose_mg_per_kg: 0.05, high_dose_mg_per_kg: 0.1,  frequency: 'SID', duration_days: 1, week2: false, sort_order: 1, route: 'IV', default_timing: 'post-op',  patient_instructions: '' },
+  { name: 'Buprenorphine', section: 'anesthesia', group_key: 'post_op', category: null, form: 'liquid', tablet_sizes: null, concentration_mg_per_ml: 0.3, low_dose_mg_per_kg: 0.01, high_dose_mg_per_kg: 0.02, frequency: 'SID', duration_days: 1, week2: false, sort_order: 2, route: 'IV', default_timing: 'post-op',  patient_instructions: '' },
 ]
+
+// ─── Audit log helpers ───────────────────────────────────────────────────────
 
 const ACTION_STYLES = {
   created:     'bg-green-100 text-green-700',
@@ -56,14 +76,29 @@ const ACTION_STYLES = {
 }
 
 const FIELD_LABELS = {
-  name: 'Name', category: 'Category', form: 'Form',
-  low_dose_mg_per_kg: 'Low dose', high_dose_mg_per_kg: 'High dose',
-  frequency: 'Frequency', duration_days: 'Duration', week2: 'Week 2',
-  concentration_mg_per_ml: 'Concentration', tablet_sizes: 'Tablet sizes',
-  patient_instructions: 'Patient instructions', active: 'Active',
+  name:                       'Name',
+  section:                    'Section',
+  group_key:                  'Group',
+  form:                       'Form',
+  low_dose_mg_per_kg:         'Low dose',
+  high_dose_mg_per_kg:        'High dose',
+  frequency:                  'Frequency',
+  duration_days:              'Duration',
+  week2:                      'Week 2',
+  concentration_mg_per_ml:    'Concentration',
+  tablet_sizes:               'Tablet sizes',
+  patient_instructions:       'Patient instructions',
+  route:                      'Route',
+  default_timing:             'Default timing',
+  instruction_template_plain: 'Plain template',
+  instruction_template_html:  'HTML template',
+  active:                     'Active',
 }
 
-const IGNORE_FIELDS = new Set(['id', 'practice_id', 'created_at', 'sort_order'])
+// Fields to skip in audit diff display (internal / low-signal)
+const IGNORE_FIELDS = new Set([
+  'id', 'practice_id', 'created_at', 'sort_order', 'category',
+])
 
 function diffValues(oldV, newV) {
   if (!oldV || !newV) return []
@@ -71,8 +106,8 @@ function diffValues(oldV, newV) {
     .filter(k => !IGNORE_FIELDS.has(k) && JSON.stringify(oldV[k]) !== JSON.stringify(newV[k]))
     .map(k => ({
       field: FIELD_LABELS[k] || k,
-      from: String(oldV[k] ?? '—'),
-      to: String(newV[k] ?? '—'),
+      from:  String(oldV[k] ?? '—'),
+      to:    String(newV[k] ?? '—'),
     }))
 }
 
@@ -94,28 +129,39 @@ function useAuditLog() {
   })
 }
 
+// ─── Page component ──────────────────────────────────────────────────────────
+
 export default function DrugLibraryPage() {
   const { isAdmin, practiceId } = useAuth()
   const { data: drugs, isLoading, error } = useDrugs()
   const { data: auditLogs } = useAuditLog()
   const queryClient = useQueryClient()
-  const [adding, setAdding] = useState(false)
-  const [seeding, setSeeding] = useState(false)
+  const [adding, setAdding]     = useState(false)
+  const [seeding, setSeeding]   = useState(false)
   const [showAudit, setShowAudit] = useState(false)
 
   async function loadDefaults() {
     setSeeding(true)
-    const existingNames = new Set((drugs ?? []).map(d => d.name))
+    // Deduplicate by name + group_key so the same drug can exist in multiple
+    // phases (e.g. Hydromorphone in both pre-op and post-op)
+    const existingKeys = new Set(
+      (drugs ?? []).map(d => `${d.name}||${d.group_key ?? ''}`)
+    )
     const rows = DEFAULT_DRUGS
-      .filter(d => !existingNames.has(d.name))
+      .filter(d => !existingKeys.has(`${d.name}||${d.group_key}`))
       .map(d => ({ ...d, practice_id: practiceId, active: true }))
     if (rows.length > 0) await supabase.from('drugs').insert(rows)
     queryClient.invalidateQueries({ queryKey: ['drugs', practiceId] })
     setSeeding(false)
   }
 
+  const totalCount  = drugs?.length ?? 0
+  const activeCount = drugs?.filter(d => d.active).length ?? 0
+  const dischargeCt = drugs?.filter(d => (d.section ?? 'discharge') === 'discharge').length ?? 0
+  const anesthCt    = drugs?.filter(d => d.section === 'anesthesia').length ?? 0
+
   if (isLoading) return <div className="p-8 text-center text-gray-400">Loading drug library…</div>
-  if (error) return <div className="p-8 text-center text-red-500">{error.message}</div>
+  if (error)     return <div className="p-8 text-center text-red-500">{error.message}</div>
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
@@ -126,7 +172,11 @@ export default function DrugLibraryPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-xl font-bold text-gray-800">Drug Library</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{drugs?.length ?? 0} drugs · {drugs?.filter(d => d.active).length ?? 0} active</p>
+          <p className="text-sm text-gray-500 mt-0.5">
+            {totalCount} drugs · {activeCount} active
+            {dischargeCt > 0 && <> · {dischargeCt} discharge</>}
+            {anesthCt    > 0 && <> · {anesthCt} anesthesia</>}
+          </p>
         </div>
         {isAdmin && (
           <div className="flex gap-2">
@@ -144,14 +194,20 @@ export default function DrugLibraryPage() {
       </div>
 
       {/* Drug table or empty state */}
-      {drugs?.length === 0 ? (
+      {totalCount === 0 ? (
         <div className="py-8">
           {isAdmin ? (
             <div className="bg-blue-50 border-2 border-blue-300 rounded-xl p-6 text-center max-w-lg mx-auto">
               <p className="text-3xl mb-3">☝️</p>
-              <p className="font-semibold text-blue-900 text-lg mb-2">Start here — click "Load standard drug set" above</p>
-              <p className="text-sm text-blue-700 mb-4">The easiest way to get started. Pre-populates your library with all standard drugs. You can add, change, or delete drugs anytime after.</p>
-              <button onClick={() => setAdding(true)} className="text-blue-500 hover:underline text-xs">Or add a drug manually instead</button>
+              <p className="font-semibold text-blue-900 text-lg mb-2">
+                Start here — click "Load standard drug set" above
+              </p>
+              <p className="text-sm text-blue-700 mb-4">
+                Pre-populates your library with discharge and anesthesia placeholder drugs. You can add, change, or delete drugs anytime after.
+              </p>
+              <button onClick={() => setAdding(true)} className="text-blue-500 hover:underline text-xs">
+                Or add a drug manually instead
+              </button>
             </div>
           ) : (
             <div className="text-center py-16 text-gray-400">
@@ -191,7 +247,9 @@ export default function DrugLibraryPage() {
                   </thead>
                   <tbody className="divide-y divide-gray-100">
                     {auditLogs.map(log => {
-                      const changes = log.action === 'updated' ? diffValues(log.old_values, log.new_values) : []
+                      const changes = log.action === 'updated'
+                        ? diffValues(log.old_values, log.new_values)
+                        : []
                       return (
                         <tr key={log.id} className="align-top">
                           <td className="px-4 py-2 text-gray-500 whitespace-nowrap">
